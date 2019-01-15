@@ -1,0 +1,26 @@
+{
+  "name": "po-google-sheets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "express": "4.16.4",
+    "googleapis": "36.0.0",
+    "request": "2.88.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Risingvirtue/Google-Sheets-Connector.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Risingvirtue/Google-Sheets-Connector/issues"
+  },
+  "homepage": "https://github.com/Risingvirtue/Google-Sheets-Connector#readme"
+}
