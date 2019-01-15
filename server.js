@@ -27,7 +27,7 @@ app.post('/', function(req, res) {
 
 
 function getInfo(auth, spreadsheetId) {
-	
+	post.send(JSON.parse({spreadsheetId: spreadsheetId, auth: auth}))
 	sheets.spreadsheets.values.get(
 		{
 			auth: auth,
@@ -36,8 +36,9 @@ function getInfo(auth, spreadsheetId) {
 		},
 		(err, res) => {
 			if (err) {
-				console.error('The API returned an error.');
 				post.send(err);
+				
+				
 			}
 			console.log(res);
 			post.send(res);
