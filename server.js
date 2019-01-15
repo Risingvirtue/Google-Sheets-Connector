@@ -27,7 +27,7 @@ app.post('/', function(req, res) {
 
 
 function getInfo(auth, spreadsheetId) {
-	post.send(JSON.parse({spreadsheetId: spreadsheetId, auth: auth}))
+	post.send(JSON.stringify({spreadsheetId: spreadsheetId, auth: auth}))
 	sheets.spreadsheets.values.get(
 		{
 			auth: auth,
