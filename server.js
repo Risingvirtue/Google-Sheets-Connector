@@ -2,18 +2,19 @@ const fs = require('fs');
 var express = require('express');
 var app = express();
 app.use(express.static('public'));
-
+var post = null;
 const {google} = require('googleapis');
 const sheets = google.sheets('v4');
 
 app.get('/', function(req, res) {
+	
 	var credentials = {client_email: req.query.client_email, 
 						private_key: req.query.private_key}
-	
+	post = res;
 	var auth = getAuthorize(credentials);
 	var spreadsheetId = req.query.spreadsheetId;
 	var info = getInfo(auth, spreadsheetId);
-	res.send(JSON.stringify(info));
+	//res.send(JSON.stringify(info));
 	
 	
 });
@@ -36,10 +37,10 @@ function getInfo(auth, spreadsheetId) {
 		(err, res) => {
 			if (err) {
 				console.error('The API returned an error.');
-				return err;
+				post.send(err);
 			}
 			console.log(res);
-			return res;
+			post.send(res);
 			
 		}
 	);
