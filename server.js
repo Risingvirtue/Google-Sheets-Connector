@@ -9,9 +9,9 @@ var testKey = "";
 app.get('/', function(req, res) {
 	
 	try {
+		
 		var credentials = {client_email: req.headers.client_email, 
 			private_key: req.headers.private_key.split('?').join('\n')}
-		res.send(credentials.private_key.indexOf('+'));
 		
 		post = res;
 		var auth = getAuthorize(credentials);
