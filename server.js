@@ -9,13 +9,13 @@ var testKey = "";
 app.get('/', function(req, res) {
 	
 	try {
-		
+		res.send(req.headers);
 		var credentials = {client_email: req.headers.client_email, 
 			private_key: req.headers.private_key.split('?').join('\n')}
 		
 		post = res;
 		var auth = getAuthorize(credentials);
-		var spreadsheetId = req.headers.spreadsheetId;
+		var spreadsheetId = req.headers.spreadsheetid;
 		var info = getInfo(auth, spreadsheetId);
 	} catch (e) {
 		console.log('/', e);
