@@ -51,7 +51,7 @@ function getInfo(auth, spreadsheetId) {
 				
 			}
 			console.log(res);
-			post.send(res);
+			post.send(JSON.stringify(res.data));
 			
 		}
 	);
