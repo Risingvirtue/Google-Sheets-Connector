@@ -9,7 +9,7 @@ const sheets = google.sheets('v4');
 app.get('/', function(req, res) {
 	
 	var credentials = {client_email: req.query.client_email, 
-						private_key: req.query.private_key.split('?'}.join('\n')
+		private_key: req.query.private_key.split('?').join('\n')}
 	post = res;
 	var auth = getAuthorize(credentials);
 	var spreadsheetId = req.query.spreadsheetId;
