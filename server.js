@@ -5,15 +5,22 @@ app.use(express.static('public'));
 var post = null;
 const {google} = require('googleapis');
 const sheets = google.sheets('v4');
-
+var testKey = "";
 app.get('/', function(req, res) {
 	
-	var credentials = {client_email: req.query.client_email, 
-		private_key: req.query.private_key.split('?').join('\n')}
-	post = res;
-	var auth = getAuthorize(credentials);
-	var spreadsheetId = req.query.spreadsheetId;
-	var info = getInfo(auth, spreadsheetId);
+	try {
+		var credentials = {client_email: req.headers.client_email, 
+			private_key: req.headers.private_key.split('?').join('\n')}
+		res.send(credentials.private_key.indexOf('+'));
+		
+		post = res;
+		var auth = getAuthorize(credentials);
+		var spreadsheetId = req.headers.spreadsheetId;
+		var info = getInfo(auth, spreadsheetId);
+	} catch (e) {
+		console.log('/', e);
+	}
+	
 	//res.send(JSON.stringify(info));
 	
 	
@@ -27,6 +34,8 @@ app.post('/', function(req, res) {
 
 
 function getInfo(auth, spreadsheetId) {
+	
+	
 	//post.send(JSON.stringify({spreadsheetId: spreadsheetId, auth: auth}))
 	sheets.spreadsheets.values.get(
 		{
@@ -114,6 +123,20 @@ function getAuthorize(credentials) {
 	  null
 	);
 	return jwtClient;
+}
+
+function getKey() {
+	fs.readFile('./credentials.json', function(err, data) {
+		if (err) {
+			console.log(err);
+		}
+		data = JSON.parse(data);
+		
+		testKey = data.private_key;
+		//var auth = getAuthorize(data);
+		//var spreadsheetId = '1JObOhjq6M6ocIMdbyHYiVXWSLfD_PHfT9FGiEc56bgA';
+		//var info = getInfo(auth, spreadsheetId);
+	})
 }
 
 //getKey(updateSheet);
