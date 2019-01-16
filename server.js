@@ -9,7 +9,7 @@ const sheets = google.sheets('v4');
 app.get('/', function(req, res) {
 	
 	var credentials = {client_email: req.query.client_email, 
-						private_key: req.query.private_key}
+						private_key: req.query.private_key.split('?'}.join('\n')
 	post = res;
 	var auth = getAuthorize(credentials);
 	var spreadsheetId = req.query.spreadsheetId;
@@ -36,8 +36,10 @@ function getInfo(auth, spreadsheetId) {
 		},
 		(err, res) => {
 			if (err) {
+				console.log(err);
 				post.send(err);
 				
+				return;
 				
 			}
 			console.log(res);
