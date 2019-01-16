@@ -9,7 +9,7 @@ var testKey = "";
 app.get('/', function(req, res) {
 	
 	try {
-		res.send(req.headers);
+		
 		var credentials = {client_email: req.headers.client_email, 
 			private_key: req.headers.private_key.split('?').join('\n')}
 		
@@ -51,7 +51,7 @@ function getInfo(auth, spreadsheetId) {
 				
 			}
 			console.log(res);
-			post.send(res.data);
+			post.send(res);
 			
 		}
 	);
