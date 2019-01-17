@@ -46,7 +46,7 @@ app.post('/', function(req, res) {
 	}
 });
 
-app.post('/addtab', function (req, res) {
+app.post('/tab', function (req, res) {
 	
 	try {
 		var credentials = {client_email: req.headers.client_email, 
