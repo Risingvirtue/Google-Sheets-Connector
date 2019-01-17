@@ -31,8 +31,6 @@ app.get('/', function(req, res) {
 
 app.post('/', function(req, res) {
 	
-	res.send(req.body);
-	return;
 	try {
 		var credentials = {client_email: req.headers.client_email, 
 			private_key: req.headers.private_key.split('?').join('\n')}
@@ -41,7 +39,7 @@ app.post('/', function(req, res) {
 		var auth = getAuthorize(credentials);
 		var spreadsheetId = req.headers.spreadsheetid;
 		
-		var values = req.headers.values;
+		var values = JSON.parse(req.body.values);
 		var info = updateSheet(auth, spreadsheetId, values);
 	} catch (e) {
 		console.log('/', e);
@@ -119,7 +117,7 @@ function updateSheet(auth, spreadsheetId, values) {
 		{
 			auth: auth,
 			spreadsheetId: spreadsheetId,
-			range: 'Test',
+			range: 'A1:B',
 			valueInputOption: 'USER_ENTERED',
 			resource: {
 				values: values
