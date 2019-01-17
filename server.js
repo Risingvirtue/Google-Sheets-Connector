@@ -119,7 +119,7 @@ function updateSheet(auth, spreadsheetId, tab, values) {
 		{
 			auth: auth,
 			spreadsheetId: spreadsheetId,
-			range: 'A1:B',
+			range: tab,
 			valueInputOption: 'USER_ENTERED',
 			resource: {
 				values: values
