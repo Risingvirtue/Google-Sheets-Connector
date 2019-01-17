@@ -7,12 +7,9 @@ const {google} = require('googleapis');
 const sheets = google.sheets('v4');
 var testKey = "";
 app.get('/', function(req, res) {
-	
 	try {
-		
 		var credentials = {client_email: req.headers.client_email, 
 			private_key: req.headers.private_key.split('?').join('\n')}
-		
 		post = res;
 		var auth = getAuthorize(credentials);
 		var spreadsheetId = req.headers.spreadsheetid;
@@ -27,7 +24,33 @@ app.get('/', function(req, res) {
 });
 
 app.post('/', function(req, res) {
-	res.send(req);
+	try {
+		var credentials = {client_email: req.headers.client_email, 
+			private_key: req.headers.private_key.split('?').join('\n')}
+		
+		post = res;
+		var auth = getAuthorize(credentials);
+		var spreadsheetId = req.headers.spreadsheetid;
+		
+		var values = req.headers.values;
+		var info = updateSheet(auth, spreadsheetId, values);
+	} catch (e) {
+		console.log('/', e);
+	}
+});
+
+app.post('/addtab', function (req, res) {
+	try {
+		var credentials = {client_email: req.headers.client_email, 
+			private_key: req.headers.private_key.split('?').join('\n')}
+		
+		post = res;
+		var auth = getAuthorize(credentials);
+		var spreadsheetId = req.headers.spreadsheetid;
+		var info = updateSheet(auth, spreadsheetId);
+	} catch (e) {
+		console.log('/', e);
+	}
 });
 
 
@@ -76,7 +99,8 @@ function addTab(auth, spreadsheetId) {
 			}
 		},
 		function(err, response) {
-			if (err) return console.log(err);
+			if (err) return null;
+			return dateString;
 			//console.log("success: ", response);
 	});
 }
@@ -89,27 +113,15 @@ function updateSheet(auth, spreadsheetId, values) {
 			range: 'Test',
 			valueInputOption: 'USER_ENTERED',
 			resource: {
-				values: [['test1', 'testing'],['test1', 'konichiwa']]
+				values: values
 			}
-			
 		},
 		(err, res) => {
 			if (err) {
 				console.error('The API returned an error.');
-				throw err;
+				return 'failure';
 			}
-			console.log(res.data);
-			return;
-			const rows = res.data.values;
-			if (rows.length === 0) {
-				console.log('No data found.');
-			} else {
-				console.log('Name, Major:');
-				for (const row of rows) {
-					// Print columns A and E, which correspond to indices 0 and 4.
-					console.log(`${row[0]}, ${row[4]}`);
-				}
-			}
+			return 'success';
 		}
 	);
 }
