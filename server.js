@@ -38,9 +38,9 @@ app.post('/', function(req, res) {
 		post = res;
 		var auth = getAuthorize(credentials);
 		var spreadsheetId = req.headers.spreadsheetid;
-	
+		var tab = req.body.values;
 		var values = req.body.values;
-		var info = updateSheet(auth, spreadsheetId, values);
+		var info = updateSheet(auth, spreadsheetId, tab, values);
 	} catch (e) {
 		console.log('/', e);
 	}
@@ -71,7 +71,7 @@ function getInfo(auth, spreadsheetId) {
 		{
 			auth: auth,
 			spreadsheetId: spreadsheetId,
-			range: 'A1:B',
+			range: tab,
 		},
 		(err, res) => {
 			if (err) {
@@ -113,7 +113,7 @@ function addTab(auth, spreadsheetId) {
 	});
 }
 
-function updateSheet(auth, spreadsheetId, values) {
+function updateSheet(auth, spreadsheetId, tab, values) {
 	
 	sheets.spreadsheets.values.append(
 		{
