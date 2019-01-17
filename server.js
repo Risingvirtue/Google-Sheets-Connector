@@ -55,6 +55,7 @@ app.post('/tab', function (req, res) {
 		post = res;
 		var auth = getAuthorize(credentials);
 		var spreadsheetId = req.headers.spreadsheetid;
+		post.send(JSON.stringify(spreadsheetId));
 		var info = addTab(auth, spreadsheetId);
 	} catch (e) {
 		console.log('/', e);
