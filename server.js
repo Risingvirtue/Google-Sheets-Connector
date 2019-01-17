@@ -38,8 +38,8 @@ app.post('/', function(req, res) {
 		post = res;
 		var auth = getAuthorize(credentials);
 		var spreadsheetId = req.headers.spreadsheetid;
-		
-		var values = JSON.parse(req.body.values);
+	
+		var values = req.body.values;
 		var info = updateSheet(auth, spreadsheetId, values);
 	} catch (e) {
 		console.log('/', e);
@@ -90,6 +90,7 @@ function getInfo(auth, spreadsheetId) {
 function addTab(auth, spreadsheetId) {
 	var today = new Date();
 	var dateString = (today.getMonth + 1) + '/' + today.getDate() + '/' + (today.getFullYear() % 100);
+	console.log(dateString);
 	sheets.spreadsheets.batchUpdate({
 			auth: auth,
 			spreadsheetId: spreadsheetId,
@@ -113,6 +114,7 @@ function addTab(auth, spreadsheetId) {
 }
 
 function updateSheet(auth, spreadsheetId, values) {
+	
 	sheets.spreadsheets.values.append(
 		{
 			auth: auth,
@@ -125,10 +127,10 @@ function updateSheet(auth, spreadsheetId, values) {
 		},
 		(err, res) => {
 			if (err) {
-				console.error('The API returned an error.');
-				return 'failure';
+				console.error(err);
+				post.send('failure');
 			}
-			return 'success';
+			post.send('success');
 		}
 	);
 }
