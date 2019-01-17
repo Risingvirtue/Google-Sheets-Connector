@@ -1,11 +1,17 @@
 const fs = require('fs');
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json()); 
 app.use(express.static('public'));
+
 var post = null;
 const {google} = require('googleapis');
 const sheets = google.sheets('v4');
 var testKey = "";
+
+
 app.get('/', function(req, res) {
 	try {
 		var credentials = {client_email: req.headers.client_email, 
@@ -24,6 +30,7 @@ app.get('/', function(req, res) {
 });
 
 app.post('/', function(req, res) {
+	
 	res.send(req.body);
 	return;
 	try {
