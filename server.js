@@ -92,7 +92,7 @@ function getInfo(auth, spreadsheetId) {
 function addTab(auth, spreadsheetId) {
 	var today = new Date();
 	var dateString = (today.getMonth() + 1) + '/' + today.getDate() + '/' + (today.getFullYear() % 100);
-	console.log(dateString);
+	
 	sheets.spreadsheets.batchUpdate({
 			auth: auth,
 			spreadsheetId: spreadsheetId,
@@ -155,14 +155,13 @@ function getKey() {
 		}
 		data = JSON.parse(data);
 		
-		testKey = data.private_key;
-		//var auth = getAuthorize(data);
-		//var spreadsheetId = '1JObOhjq6M6ocIMdbyHYiVXWSLfD_PHfT9FGiEc56bgA';
-		//var info = getInfo(auth, spreadsheetId);
+		var auth = getAuthorize(data);
+		var spreadsheetId = '1JObOhjq6M6ocIMdbyHYiVXWSLfD_PHfT9FGiEc56bgA';
+		var info = addTab(auth, spreadsheetId);
 	})
 }
 
-//getKey(updateSheet);
+getKey();
 
 var listener = app.listen(process.env.PORT, function() {
 	console.log('Your app is listening on port ' + listener.address().port);
