@@ -47,7 +47,8 @@ app.post('/', function(req, res) {
 });
 
 app.post('/tab', function (req, res) {
-	
+	res.send('test');
+	/*
 	try {
 		var credentials = {client_email: req.headers.client_email, 
 			private_key: req.headers.private_key.split('?').join('\n')}
@@ -60,6 +61,7 @@ app.post('/tab', function (req, res) {
 	} catch (e) {
 		console.log('/', e);
 	}
+	*/
 });
 
 
@@ -79,8 +81,6 @@ function getInfo(auth, spreadsheetId) {
 			if (err) {
 				console.log(err);
 				post.send('There was an error');
-				
-				
 			}
 			console.log(res);
 			post.send(JSON.stringify(res.data));
