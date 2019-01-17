@@ -46,7 +46,7 @@ app.post('/', function(req, res) {
 	}
 });
 
-app.post('/tab', function (req, res) {
+app.post('/*', function (req, res) {
 	res.send('test');
 	/*
 	try {
