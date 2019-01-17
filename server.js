@@ -38,9 +38,9 @@ app.post('/', function(req, res) {
 		post = res;
 		var auth = getAuthorize(credentials);
 		var spreadsheetId = req.headers.spreadsheetid;
-		var tab = req.body.values;
+		var tab = req.body.tab;
 		
-		var values = JSON.parse(req.body.values);
+		var values = req.body.values;
 		
 		var info = updateSheet(auth, spreadsheetId, tab, values);
 	} catch (e) {
