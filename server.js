@@ -55,7 +55,6 @@ app.post('/addtab', function (req, res) {
 		post = res;
 		var auth = getAuthorize(credentials);
 		var spreadsheetId = req.headers.spreadsheetid;
-		
 		var info = addTab(auth, spreadsheetId);
 	} catch (e) {
 		console.log('/', e);
@@ -149,6 +148,7 @@ function getAuthorize(credentials) {
 }
 
 function getKey() {
+	/*
 	fs.readFile('./credentials.json', function(err, data) {
 		if (err) {
 			console.log(err);
@@ -159,9 +159,10 @@ function getKey() {
 		var spreadsheetId = '1JObOhjq6M6ocIMdbyHYiVXWSLfD_PHfT9FGiEc56bgA';
 		var info = addTab(auth, spreadsheetId);
 	})
+	*/
 }
 
-getKey();
+//getKey();
 
 var listener = app.listen(process.env.PORT, function() {
 	console.log('Your app is listening on port ' + listener.address().port);
