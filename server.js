@@ -47,6 +47,7 @@ app.post('/', function(req, res) {
 });
 
 app.post('/addtab', function (req, res) {
+	
 	try {
 		var credentials = {client_email: req.headers.client_email, 
 			private_key: req.headers.private_key.split('?').join('\n')}
@@ -54,7 +55,8 @@ app.post('/addtab', function (req, res) {
 		post = res;
 		var auth = getAuthorize(credentials);
 		var spreadsheetId = req.headers.spreadsheetid;
-		var info = updateSheet(auth, spreadsheetId);
+		
+		var info = addTab(auth, spreadsheetId);
 	} catch (e) {
 		console.log('/', e);
 	}
@@ -89,7 +91,7 @@ function getInfo(auth, spreadsheetId) {
 
 function addTab(auth, spreadsheetId) {
 	var today = new Date();
-	var dateString = (today.getMonth + 1) + '/' + today.getDate() + '/' + (today.getFullYear() % 100);
+	var dateString = (today.getMonth() + 1) + '/' + today.getDate() + '/' + (today.getFullYear() % 100);
 	console.log(dateString);
 	sheets.spreadsheets.batchUpdate({
 			auth: auth,
@@ -107,8 +109,8 @@ function addTab(auth, spreadsheetId) {
 			}
 		},
 		function(err, response) {
-			if (err) return null;
-			return dateString;
+			if (err) post.send('failure');
+			post.send(dateString);
 			//console.log("success: ", response);
 	});
 }
