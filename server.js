@@ -46,9 +46,9 @@ app.post('/', function(req, res) {
 	}
 });
 
-app.post('/*', function (req, res) {
-	res.send('test');
-	/*
+app.post('/addtab', function (req, res) {
+	
+	
 	try {
 		var credentials = {client_email: req.headers.client_email, 
 			private_key: req.headers.private_key.split('?').join('\n')}
@@ -56,12 +56,13 @@ app.post('/*', function (req, res) {
 		post = res;
 		var auth = getAuthorize(credentials);
 		var spreadsheetId = req.headers.spreadsheetid;
-		post.send(JSON.stringify(spreadsheetId));
-		var info = addTab(auth, spreadsheetId);
+		var name = req.body.name;
+		
+		var info = addTab(auth, spreadsheetId, name);
 	} catch (e) {
 		console.log('/', e);
 	}
-	*/
+	
 });
 
 
@@ -89,11 +90,7 @@ function getInfo(auth, spreadsheetId) {
 	);
 }
 
-function addTab(auth, spreadsheetId) {
-	var today = new Date();
-	var dateString = (today.getMonth() + 1) + '/' + today.getDate() + '/' + (today.getFullYear() % 100);
-	post.send(dateString);
-	return;
+function addTab(auth, spreadsheetId, name) {
 	sheets.spreadsheets.batchUpdate({
 			auth: auth,
 			spreadsheetId: spreadsheetId,
@@ -102,7 +99,7 @@ function addTab(auth, spreadsheetId) {
 					{
 						'addSheet':{
 							'properties':{
-								'title': dateString
+								'title': name
 							}
 						} 
 					}
@@ -111,7 +108,7 @@ function addTab(auth, spreadsheetId) {
 		},
 		function(err, response) {
 			if (err) post.send('failure');
-			post.send(dateString);
+			post.send(name);
 			//console.log("success: ", response);
 	});
 }
