@@ -91,7 +91,8 @@ function getInfo(auth, spreadsheetId) {
 function addTab(auth, spreadsheetId) {
 	var today = new Date();
 	var dateString = (today.getMonth() + 1) + '/' + today.getDate() + '/' + (today.getFullYear() % 100);
-	
+	post.send(dateString);
+	return;
 	sheets.spreadsheets.batchUpdate({
 			auth: auth,
 			spreadsheetId: spreadsheetId,
