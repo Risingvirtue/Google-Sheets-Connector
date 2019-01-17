@@ -24,6 +24,8 @@ app.get('/', function(req, res) {
 });
 
 app.post('/', function(req, res) {
+	res.send(req.body);
+	return;
 	try {
 		var credentials = {client_email: req.headers.client_email, 
 			private_key: req.headers.private_key.split('?').join('\n')}
