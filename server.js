@@ -5,7 +5,6 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()); 
 app.use(express.static('public'));
-
 var post = null;
 const {google} = require('googleapis');
 const sheets = google.sheets('v4');
@@ -23,10 +22,20 @@ app.get('/', function(req, res) {
 	} catch (e) {
 		console.log('/', e);
 	}
-	
-	//res.send(JSON.stringify(info));
-	
-	
+
+});
+
+app.get('/tabs', function(req, res) {
+	try {
+		var credentials = {client_email: req.headers.client_email, 
+			private_key: req.headers.private_key.split('?').join('\n')}
+		post = res;
+		var auth = getAuthorize(credentials);
+		var spreadsheetId = req.headers.spreadsheetid;
+		var info = getTabs(auth, spreadsheetId);
+	} catch (e) {
+		console.log('/', e);
+	}
 });
 
 app.post('/', function(req, res) {
@@ -67,13 +76,7 @@ app.post('/addtab', function (req, res) {
 	
 });
 
-
-
-
 function getInfo(auth, spreadsheetId) {
-	
-	
-	//post.send(JSON.stringify({spreadsheetId: spreadsheetId, auth: auth}))
 	sheets.spreadsheets.values.get(
 		{
 			auth: auth,
@@ -87,6 +90,29 @@ function getInfo(auth, spreadsheetId) {
 			}
 			console.log(res);
 			post.send(JSON.stringify(res.data));
+			
+		}
+	);
+}
+
+function getTabs(auth, spreadsheetId) {
+	sheets.spreadsheets.get(
+		{
+			auth: auth,
+			spreadsheetId: spreadsheetId,
+		},
+		(err, res) => {
+			if (err) {
+				console.log(err);
+				post.send('There was an error');
+			}
+			console.log(res.data.sheets);
+			var tabs = [];
+			res.data.sheets.forEach(function(tab) {
+				tabs.push(tab.properties.title);
+			})
+			
+			post.send(res.data);
 			
 		}
 	);
@@ -137,6 +163,8 @@ function updateSheet(auth, spreadsheetId, tab, values) {
 	);
 }
 
+
+
 function getAuthorize(credentials) {
   const jwtClient = new google.auth.JWT(
 	  credentials.client_email,
@@ -158,7 +186,7 @@ function getKey() {
 		
 		var auth = getAuthorize(data);
 		var spreadsheetId = '1JObOhjq6M6ocIMdbyHYiVXWSLfD_PHfT9FGiEc56bgA';
-		var info = addTab(auth, spreadsheetId);
+		var info = getTabs(auth, spreadsheetId);
 	})
 	*/
 }
