@@ -112,7 +112,7 @@ function getTabs(auth, spreadsheetId) {
 				tabs.push(tab.properties.title);
 			})
 			
-			post.send(res.data);
+			post.send(JSON.stringify(tabs));
 			
 		}
 	);
