@@ -135,7 +135,14 @@ function addTab(auth, spreadsheetId, name) {
 			}
 		},
 		function(err, response) {
-			if (err) post.send('failure');
+			if (err) {
+				var message = err.errors[0].message;
+				if (message.indexOf('already exists')) {
+					post.send(name);
+				} else {
+					post.send('failure');
+				}
+			}
 			post.send(name);
 			//console.log("success: ", response);
 	});
@@ -186,11 +193,11 @@ function getKey() {
 		
 		var auth = getAuthorize(data);
 		var spreadsheetId = '1JObOhjq6M6ocIMdbyHYiVXWSLfD_PHfT9FGiEc56bgA';
-		var info = getTabs(auth, spreadsheetId);
+		var info = addTab(auth, spreadsheetId, '1/17/19');
 	})
 	*/
+	
 }
-
 //getKey();
 
 var listener = app.listen(process.env.PORT, function() {
