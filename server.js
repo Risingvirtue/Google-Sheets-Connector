@@ -18,7 +18,8 @@ app.get('/', function(req, res) {
 		post = res;
 		var auth = getAuthorize(credentials);
 		var spreadsheetId = req.headers.spreadsheetid;
-		var info = getInfo(auth, spreadsheetId);
+		var tab = req.headers.tab;
+		var info = getInfo(auth, spreadsheetId, tab);
 	} catch (e) {
 		console.log('/', e);
 	}
@@ -76,7 +77,7 @@ app.post('/addtab', function (req, res) {
 	
 });
 
-function getInfo(auth, spreadsheetId) {
+function getInfo(auth, spreadsheetId, tab) {
 	sheets.spreadsheets.values.get(
 		{
 			auth: auth,
