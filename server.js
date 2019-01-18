@@ -90,7 +90,7 @@ function getInfo(auth, spreadsheetId, tab) {
 				post.send('There was an error');
 			}
 			console.log(res);
-			post.send(JSON.stringify(res.data));
+			post.send(JSON.stringify(res.data.values));
 			
 		}
 	);
