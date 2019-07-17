@@ -142,7 +142,7 @@ function addTab(auth, spreadsheetId, name) {
 				if (message.indexOf('already exists')) {
 					post.send(name);
 				} else {
-					post.send('failure');
+					post.send('failure: ' + message);
 				}
 			}
 			post.send(name);
