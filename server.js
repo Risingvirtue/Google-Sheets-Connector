@@ -23,6 +23,7 @@ app.get('/', function(req, res) {
 		var info = getInfo(auth, spreadsheetId, tab);
 	} catch (e) {
 		console.log('/', e);
+		post.status(429);
 	}
 
 });
@@ -37,11 +38,11 @@ app.get('/tabs', function(req, res) {
 		var info = getTabs(auth, spreadsheetId);
 	} catch (e) {
 		console.log('/', e);
+		post.status(429);
 	}
 });
 
 app.post('/', function(req, res) {
-	res.status(429).send('err');
 	try {
 		var credentials = {client_email: req.headers.client_email, 
 			private_key: req.headers.private_key.split('?').join('\n')}
@@ -56,12 +57,11 @@ app.post('/', function(req, res) {
 		var info = updateSheet(auth, spreadsheetId, tab, values);
 	} catch (e) {
 		console.log('/', e);
+		post.status(429);
 	}
 });
 
 app.post('/addtab', function (req, res) {
-	res.status(429).send('err');
-	
 	try {
 		var credentials = {client_email: req.headers.client_email, 
 			private_key: req.headers.private_key.split('?').join('\n')}
@@ -74,6 +74,7 @@ app.post('/addtab', function (req, res) {
 		var info = addTab(auth, spreadsheetId, name);
 	} catch (e) {
 		console.log('/', e);
+		post.status(429);
 	}
 	
 });
