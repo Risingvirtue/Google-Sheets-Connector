@@ -146,8 +146,9 @@ function addTab(auth, spreadsheetId, name) {
 					console.log(err);
 					post.status(429).send(err);
 				}
+			} else {
+				post.send(name);
 			}
-			post.send(name);
 			//console.log("success: ", response);
 	});
 }
