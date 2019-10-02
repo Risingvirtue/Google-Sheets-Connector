@@ -88,7 +88,7 @@ function getInfo(auth, spreadsheetId, tab) {
 		(err, res) => {
 			if (err) {
 				console.log(err);
-				post.send('There was an error');
+				post.status(429).send(err);
 			}
 			console.log(res);
 			post.send(JSON.stringify(res.data.values));
@@ -106,7 +106,7 @@ function getTabs(auth, spreadsheetId) {
 		(err, res) => {
 			if (err) {
 				console.log(err);
-				post.send('There was an error');
+				post.status(429).send(err);
 			}
 			console.log(res.data.sheets);
 			var tabs = [];
@@ -142,7 +142,8 @@ function addTab(auth, spreadsheetId, name) {
 				if (message.indexOf('already exists')) {
 					post.send(name);
 				} else {
-					post.send('failure: ' + message);
+					console.log(err);
+					post.status(429).send(err);
 				}
 			}
 			post.send(name);
@@ -164,8 +165,8 @@ function updateSheet(auth, spreadsheetId, tab, values) {
 		},
 		(err, res) => {
 			if (err) {
-				console.error(err);
-				post.send('failure');
+				console.log(err);
+				post.status(429).send(err);
 			}
 			post.send('success');
 		}
