@@ -41,7 +41,7 @@ app.get('/tabs', function(req, res) {
 });
 
 app.post('/', function(req, res) {
-	
+	rest.status(429).send('err');
 	try {
 		var credentials = {client_email: req.headers.client_email, 
 			private_key: req.headers.private_key.split('?').join('\n')}
