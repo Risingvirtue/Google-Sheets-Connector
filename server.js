@@ -139,8 +139,13 @@ function addTab(auth, spreadsheetId, name) {
 		},
 		function(err, response) {
 			if (err) {
-				console.log(err);
-				post.status(429).send(err);
+				var message = err.errors[0].message;
+				if (message.indexOf('already exists') != -1) {
+					post.send(name);
+				} else {
+					console.log(err);
+					post.status(429).send(err);
+				}
 			} else {
 				post.send(name);
 			}
