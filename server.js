@@ -154,7 +154,7 @@ function addTab(auth, spreadsheetId, name) {
 }
 
 function updateSheet(auth, spreadsheetId, tab, values) {
-	console.log({auth, spreadsheetId, tab, values});
+	
 	sheets.spreadsheets.values.update(
 		{
 			auth: auth,
